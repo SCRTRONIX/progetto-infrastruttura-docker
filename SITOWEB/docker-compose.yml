@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:alpine
+    container_name: web_server
+    environment:
+      - VIRTUAL_HOST=host1.esempio.test
+#      - VIRTUAL_PORT=80
+    volumes:
+      - ./html:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    restart: always
+    networks:
+      - rete_docker
+
+  php:
+    build: .
+    container_name: php_app
+    volumes:
+      - ./html:/var/www/html
+    restart: always
+    networks:
+      - rete_docker
+
+networks:
+  rete_docker:
+    external: true

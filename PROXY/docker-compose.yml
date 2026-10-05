@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  reverse-proxy:
+    image: nginxproxy/nginx-proxy:1.11
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ./data/conf:/etc/nginx/conf.d
+    - ./data/vhost:/etc/nginx/vhost.d
+    - ./data/certs:/etc/nginx/certs
+    - ./data/dhparam:/etc/nginx/dhparam
+    - ./data/html:/usr/share/nginx/html
+    networks:
+      - rete_docker
+
+networks: # docker network create nginx-proxy <- la prima volta
+  rete_docker:
+    external: true

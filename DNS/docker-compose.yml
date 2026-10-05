@@ -1,0 +1,18 @@
+services:
+  bind9:
+    image: ubuntu/bind9:latest
+    container_name: dns-bind9
+    restart: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - ./config/named.conf:/etc/bind/named.conf
+      - ./config/named.conf.local:/etc/bind/named.conf.local
+      - ./config/named.conf.options:/etc/bind/named.conf.options
+      - ./config/db.esempio.local:/etc/bind/db.esempio.local
+    networks:
+      - rete_docker
+networks:
+  rete_docker:
+    external: true
